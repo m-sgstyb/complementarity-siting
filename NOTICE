@@ -1,0 +1,6 @@
+This software uses CVXPY (dependent software). As such, users require the
+dependent software and need to adhere to the license requirements of said
+software.
+
+CVXPY is covered under the same License as this software (Apache License,
+Version 2.0), which can be found in the LICENSE.txt file.
