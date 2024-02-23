@@ -17,7 +17,7 @@ This model requires the following dependencies, which can be installed individua
 
 Alternatively, an environment can be created through a conda package manager:
 ```
-(base) .../your_folder_name % cd st_complementarity_siting
+(base) .../your_folder_name % cd complementarity-siting
 (base) .../your_folder_name/ % conda env create -f environment.yaml 
 ```
 This includes the required dependencies, as well as the installation of the MOSEK optimisation suite, which is optional. See below.
