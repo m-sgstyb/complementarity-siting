@@ -20,7 +20,7 @@ Alternatively, an environment can be created through a conda package manager:
 (base) .../your_folder_name % cd complementarity-siting
 (base) .../your_folder_name/ % conda env create -f environment.yaml 
 ```
-This includes the required dependencies, as well as the installation of the MOSEK optimisation suite, which is optional. See below.
+This includes the required dependencies, as well as the installation of the MOSEK optimisation suite, which is optional (see below), and the spyder IDE.
 
 ### Solver
 The current optimisation may be run with open source solvers, such as ECOS or SCS.
