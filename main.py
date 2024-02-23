@@ -30,7 +30,7 @@ local_marginal_prices_filename = os.path.join(pml_folder, "pml_SEN_2019.csv")
 
 ## Change values to optimise for different alphas, and the label for complementarity metric
 al = 1
-metric = "GEN"
+metric = "MVAR"
  
 ts = 8760           # total timesteps, hours
 sites = 12          # sites to consider
@@ -125,17 +125,17 @@ system_cost = ((cost_pv / pv_life) * cp.sum(capacity_pv)) + ((cost_wind / wind_l
 
 # objective = cp.Minimize(peak_res_demand)
 # objective = cp.Minimize(avg_res_demand)
-objective = cp.Maximize(total_generation)
+# objective = cp.Maximize(total_generation)
 # objective = cp.Minimize(lolp)
 # objective = cp.Minimize(var)
-# objective = cp.Minimize(max_var)
+objective = cp.Minimize(max_var)
 
 
 prob = cp.Problem(objective, constraints)
 
 
-# result = prob.solve(solver = cp.MOSEK, warm_start=True, qcp=False, verbose=False)
-result = prob.solve(solver = cp.SCS, warm_start=True, max_iters=1000, verbose=False)
+result = prob.solve(solver = cp.MOSEK, warm_start=True, qcp=False, verbose=False)
+# result = prob.solve(solver = cp.SCS, warm_start=True, max_iters=1000, verbose=False)
 
 
 ###### Save results
