@@ -138,7 +138,7 @@ result = prob.solve(solver = cp.MOSEK, warm_start=True, qcp=False, verbose=False
 # result = prob.solve(solver = cp.SCS, warm_start=True, max_iters=1000, verbose=False)
 
 
-###### Save results
+#### Save results
 
 flows_filename = os.path.join(results_folder, f"alpha{al}-RE_flows_{metric}_sites.csv")
 capacities_filename = os.path.join(results_folder, f"alpha{al}-RE_capacities_{metric}_sites.csv")
@@ -154,6 +154,7 @@ pd.DataFrame({'PV_capacities': capacity_pv.value,
               'Wind_Capacities': capacity_wind.value}).to_csv(capacities_filename)
 
 
+#### Save total and average generation files per optimisation 
 
 save_pv_filename = os.path.join(plots_folder, f"PV_gen_{metric}.csv")
 save_wind_filename = os.path.join(plots_folder, f"Wind_gen_{metric}.csv")
@@ -221,62 +222,8 @@ avg_wind_site = pd.concat([avg_wind_site, wind_other['Other wind']], axis=1)
 pv_other['Other'] = pv_other.sum(axis=1)
 avg_pv_site = pd.concat([avg_pv_site, pv_other['Other']], axis=1)
 
+
 pv_gen_df.to_csv(save_pv_filename)
 wind_gen_df.to_csv(save_wind_filename)
 avg_pv_site.to_csv(save_avg_pv_filename)
 avg_wind_site.to_csv(save_avg_wind_filename)
-
-
-
-
-
-# locations = ['SON', 'MUL', 'BCS', 'CHIH', 'JAL', 'GUE', 'TAM', 'PUE', 'VER',
-#               'OAX', 'CHIA', 'YUC']
-
-# fig, ax = plt.subplots(3, 4, sharex=True, sharey=True, figsize=(10,6), layout='constrained')
-# for n, location in enumerate(locations):
-
-#     pv_cf = pd.DataFrame()
-#     w_cf = pd.DataFrame()
-    
-#     loc_df = pd.DataFrame()
-#     loc_df[f'{location}'] = PV_locs_df[f'{location}_PV']
-#     loc_w_df = pd.DataFrame()
-#     loc_w_df[f'{location}'] = wind_locs_df[f'{location}_wind']
-    
-#     for i in range(0,365):
-#         son_pv = loc_df.iloc[0:24 , 0]
-#         pv_cf  = pd.concat([pv_cf , son_pv], axis=1, ignore_index=True)
-#         loc_df = loc_df.drop(index=loc_df.index[0:24])
-#         loc_df = loc_df.reset_index(drop=True)
-        
-#         son_w = loc_w_df.iloc[0:24 , 0]
-#         w_cf  = pd.concat([w_cf , son_w], axis=1, ignore_index=True)
-#         loc_w_df = loc_w_df.drop(index=loc_w_df.index[0:24])
-#         loc_w_df = loc_w_df.reset_index(drop=True)
-              
-#     describe = pv_cf.apply(pd.DataFrame.describe, axis=1)
-#     describe_w = w_cf.apply(pd.DataFrame.describe, axis=1)  
-
-#     ax = plt.subplot(3, 4, n+1)
-#     ax.set_title(f'{location}')
-#     # ax.plot(index_day, avg_load_prof['avg_demand'], color='b', linestyle='-.', label="Demand")
-#     ax.set_ylim(-0.15,1)
-#     ax.set_xlim(0,23)
-#     # ax.set_ylabel("GW/GWp")
-#     # ax.set_xlabel("Hour")
-#     ax.plot(index_day, describe['mean'], color='#FA6E23', label="PV mean")
-#     ax.plot(index_day, describe_w['mean'], color='#030455', label="Wind mean")
-#     ax.fill_between(index_day, describe['mean']+describe['std'], describe['mean']-describe['std'], alpha=0.2, label='PV std', color='#FD992C')
-#     ax.fill_between(index_day, describe_w['mean']+describe_w['std'], describe_w['mean']-describe_w['std'], alpha=0.2, label='Wind std', color='#00A5D0')
-
-    
-
-# fig.supxlabel('Hour')
-# fig.supylabel('GW / GWp')
-# handles, labels = ax.get_legend_handles_labels()
-# fig.legend(handles, labels, loc='lower center', frameon=False, ncols=4, bbox_to_anchor=(0.5,-0.045,0,0))
-# plt.show()
-# fig.savefig("/Users/laorie4253/Desktop/PV_wind_CF_2019.png", dpi=500, bbox_inches='tight')
-
-
