@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+!#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Created on Wed Jan 24 11:11:24 2024
@@ -30,7 +30,6 @@ def plot_reliability_all_metrics(flows_filename_1, metric_1, flows_filename_2, m
     Plot for the metric specified
     
     ''' 
-
     flows_1 = pd.read_csv(flows_filename_1)
     flows_2 = pd.read_csv(flows_filename_2)
     flows_3 = pd.read_csv(flows_filename_3)
@@ -76,14 +75,107 @@ def plot_reliability_all_metrics(flows_filename_1, metric_1, flows_filename_2, m
     fig, ax = plt.subplots()
     ax.plot(data_1['x'], data_1['y'], color='#E76F51', linestyle='-', alpha=1, label=f"{metric_1} sites")
     ax.plot(data_2['x'], data_2['y'], color='#779B6C', linestyle='-', alpha=1, label=f"{metric_2} sites")
-    ax.plot(data_3['x'], data_3['y'], color='#264653', linestyle='-', alpha=1, label=f"{metric_3} sites")
-    ax.plot(data_4['x'], data_4['y'], color='#E9C46A', linestyle='-', alpha=1, label=f"{metric_4} sites")
-    ax.plot(data_5['x'], data_5['y'], color='#2A9D8F', linestyle='-', alpha=1, label=f"{metric_5} sites")
+    ax.plot(data_3['x'], data_3['y'], color='#E9C46A', linestyle='-', alpha=1, label=f"{metric_3} sites")
+    ax.plot(data_4['x'], data_4['y'], color='#2A9D8F', linestyle='-', alpha=1, label=f"{metric_4} sites")
+    ax.plot(data_5['x'], data_5['y'], color='#264653', linestyle='-', alpha=1, label=f"{metric_5} sites")
 
     ax.set_xlim(0,8760)
     ax.set_ylim(0,1.1)
 
-    ax.set_ylabel("Share of met demand (%)")
+    ax.set_ylabel("Share of met demand")
+    # ax.set_xlabel("Share of hours in the year (%)")
+    ax.set_xlabel("Hour")
+    ax.legend()
+
+    ax.set_xticks(ticks=[0, 2190, 4380, 6570, 8760], labels=["0", "2190", "4380", "6570", "8760"])
+    # plt.xticks(ticks=[0, 876, 1752, 2628, 3504, 4380, 5256, 6132, 7008, 7884, 8760], labels=["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"])
+    ax.legend(loc='lower center', fontsize='small', frameon=False, ncols=5, bbox_to_anchor=(0.5,-0.25,0,0))
+    plt.grid(visible=True, alpha=0.5)
+
+
+    return fig
+
+def plot_reliability_alphas(flows_filename_1, flows_filename_2, flows_filename_3,
+                            flows_filename_4, flows_filename_5, flows_filename_6):
+    '''
+    Function that obtains the reliability for all hours of the year for each file (metric of complementarity)
+    and plots the result for all metrics
+    
+   
+    Parameters
+    ----------
+    flows_filename_i: TYPE, required
+        DESCRIPTION, filenames (string) for each metric, currently receives five files
+    metric_i: TYPE, required
+        DESCRIPTION, metric from the corresponding i-th filename, for labelling in the plots
+
+    Returns
+    -------
+    Plot for the metric specified
+    
+    ''' 
+    flows_1 = pd.read_csv(flows_filename_1)
+    flows_2 = pd.read_csv(flows_filename_2)
+    flows_3 = pd.read_csv(flows_filename_3)
+    flows_4 = pd.read_csv(flows_filename_4)
+    flows_5 = pd.read_csv(flows_filename_5)
+    flows_6 = pd.read_csv(flows_filename_6)
+
+    rel_1 = np.array(flows_1['Reliability'])
+    x_1 = np.array(flows_1.index)
+    y_1 = np.flip(np.sort(rel_1))
+
+    data_1 = pd.DataFrame({'x': x_1,
+                         'y': y_1})
+
+    rel_2 = np.array(flows_2['Reliability'])
+    x_2 = np.array(flows_2.index)
+    y_2 = np.flip(np.sort(rel_2))
+
+    data_2 = pd.DataFrame({'x': x_2,
+                         'y': y_2})
+
+    rel_3 = np.array(flows_3['Reliability'])
+    x_3 = np.array(flows_3.index)
+    y_3 = np.flip(np.sort(rel_3))
+
+    data_3 = pd.DataFrame({'x': x_3,
+                         'y': y_3})
+
+    rel_4 = np.array(flows_4['Reliability'])
+    x_4 = np.array(flows_4.index)
+    y_4 = np.flip(np.sort(rel_4))
+
+    data_4 = pd.DataFrame({'x': x_4,
+                         'y': y_4})
+    
+    rel_5 = np.array(flows_5['Reliability'])
+    x_5 = np.array(flows_5.index)
+    y_5 = np.flip(np.sort(rel_5))
+
+    data_5 = pd.DataFrame({'x': x_5,
+                         'y': y_5})
+    
+    rel_6 = np.array(flows_6['Reliability'])
+    x_6 = np.array(flows_6.index)
+    y_6 = np.flip(np.sort(rel_6))
+
+    data_6 = pd.DataFrame({'x': x_6,
+                         'y': y_6})
+
+
+    fig, ax = plt.subplots()
+    ax.plot(data_1['x'], data_1['y'], color='#277588', linestyle='-', alpha=0.3)
+    ax.plot(data_2['x'], data_2['y'], color='#cf3759', linestyle='-', alpha=0.3)
+    ax.plot(data_3['x'], data_3['y'], color='#277588', linestyle='-', alpha=0.6)
+    ax.plot(data_4['x'], data_4['y'], color='#cf3759', linestyle='-', alpha=0.6)
+    ax.plot(data_5['x'], data_5['y'], color='#277588', linestyle='-', alpha=1, label="ARD sites")
+    ax.plot(data_6['x'], data_6['y'], color='#cf3759', linestyle='-', alpha=1, label="MVAR sites")
+
+    ax.set_xlim(0,8760)
+    ax.set_ylim(0,1.1)
+
+    ax.set_ylabel("Share of met demand")
     # ax.set_xlabel("Share of hours in the year (%)")
     ax.set_xlabel("Hour")
     ax.legend()
@@ -724,7 +816,7 @@ pv_avg_filename = os.path.join(plots_folder, "PV_avggen_ARD.csv")
 wind_gen_filename = os.path.join(plots_folder, "Wind_gen_ARD.csv")
 wind_avg_filename = os.path.join(plots_folder, "Wind_avggen_ARD.csv")
 ard_figname = os.path.join(figs_folder, "ard_avgMixgen.png")
-plot_average_profiles(pv_gen_filename, wind_gen_filename, demand_filename, metric="ARD").savefig(ard_figname, dpi=500, bbox_inches="tight")
+# plot_average_profiles(pv_gen_filename, wind_gen_filename, demand_filename, metric="ARD").savefig(ard_figname, dpi=500, bbox_inches="tight")
 
 
 ### PRD
@@ -733,7 +825,7 @@ pv_avg_prd_filename = os.path.join(plots_folder, "PV_avggen_PRD.csv")
 wind_gen_prd_filename = os.path.join(plots_folder, "Wind_gen_PRD.csv")
 wind_avg_prd_filename = os.path.join(plots_folder, "Wind_avggen_PRD.csv")
 prd_figname = os.path.join(figs_folder, "prd_avgMixgen.png")
-plot_average_profiles(pv_gen_prd_filename, wind_gen_prd_filename, demand_filename, metric="PRD").savefig(prd_figname, dpi=500, bbox_inches='tight')
+# plot_average_profiles(pv_gen_prd_filename, wind_gen_prd_filename, demand_filename, metric="PRD").savefig(prd_figname, dpi=500, bbox_inches='tight')
 
 ### TVAR
 pv_gen_tvar_filename = os.path.join(plots_folder, "PV_gen_TVAR.csv")
@@ -741,7 +833,7 @@ pv_avg_tvar_filename = os.path.join(plots_folder, "PV_avggen_TVAR.csv")
 wind_gen_tvar_filename = os.path.join(plots_folder, "Wind_gen_TVAR.csv")
 wind_avg_tvar_filename = os.path.join(plots_folder, "Wind_avggen_TVAR.csv")
 tvar_figname = os.path.join(figs_folder, "tvar_avgMixgen.png")
-plot_average_profiles(pv_gen_tvar_filename, wind_gen_tvar_filename, demand_filename, metric="TVAR").savefig(tvar_figname, dpi=500, bbox_inches='tight')
+# plot_average_profiles(pv_gen_tvar_filename, wind_gen_tvar_filename, demand_filename, metric="TVAR").savefig(tvar_figname, dpi=500, bbox_inches='tight')
 
 ### MVAR
 pv_gen_mvar_filename = os.path.join(plots_folder, "PV_gen_MVAR.csv")
@@ -749,7 +841,7 @@ pv_avg_mvar_filename = os.path.join(plots_folder, "PV_avggen_MVAR.csv")
 wind_gen_mvar_filename = os.path.join(plots_folder, "Wind_gen_MVAR.csv")
 wind_avg_mvar_filename = os.path.join(plots_folder, "Wind_avggen_MVAR.csv")
 mvar_figname = os.path.join(figs_folder, "mvar_avgMixgen.png")
-plot_average_profiles(pv_gen_mvar_filename, wind_gen_mvar_filename, demand_filename, metric="MVAR").savefig(mvar_figname, dpi=500, bbox_inches='tight')
+# plot_average_profiles(pv_gen_mvar_filename, wind_gen_mvar_filename, demand_filename, metric="MVAR").savefig(mvar_figname, dpi=500, bbox_inches='tight')
 
 
 
@@ -767,30 +859,43 @@ max_day_mvar = int(find_max_res_demand_day(mvar_flows_filename))
 
 ### Get the hourly data from the day with maximum residual demand for each metric and plot result
 ard_maxday_figname = os.path.join(figs_folder, "ard_maxday_mixgen.png")
-plot_max_res_demand_day(pv_gen_filename, wind_gen_filename, demand_filename, max_day=max_day_ard, metric="ARD").savefig(ard_maxday_figname, dpi=500, bbox_inches='tight')
+# plot_max_res_demand_day(pv_gen_filename, wind_gen_filename, demand_filename, max_day=max_day_ard, metric="ARD").savefig(ard_maxday_figname, dpi=500, bbox_inches='tight')
 
 prd_maxday_figname = os.path.join(figs_folder, "prd_maxday_mixgen.png")
-plot_max_res_demand_day(pv_gen_prd_filename, wind_gen_prd_filename, demand_filename, max_day=max_day_prd, metric="PRD").savefig(prd_maxday_figname, dpi=500, bbox_inches='tight')
+# plot_max_res_demand_day(pv_gen_prd_filename, wind_gen_prd_filename, demand_filename, max_day=max_day_prd, metric="PRD").savefig(prd_maxday_figname, dpi=500, bbox_inches='tight')
 
 tvar_maxday_figname = os.path.join(figs_folder, "tvar_maxday_mixgen.png")
-plot_max_res_demand_day(pv_gen_tvar_filename, wind_gen_tvar_filename, demand_filename, max_day=max_day_tvar, metric="TVAR").savefig(tvar_maxday_figname, dpi=500, bbox_inches='tight')
+# plot_max_res_demand_day(pv_gen_tvar_filename, wind_gen_tvar_filename, demand_filename, max_day=max_day_tvar, metric="TVAR").savefig(tvar_maxday_figname, dpi=500, bbox_inches='tight')
 
 mvar_maxday_figname = os.path.join(figs_folder, "mvar_maxday_mixgen.png")
-plot_max_res_demand_day(pv_gen_mvar_filename, wind_gen_mvar_filename, demand_filename, max_day=max_day_mvar, metric="MVAR").savefig(mvar_maxday_figname, dpi=500, bbox_inches='tight')
+# plot_max_res_demand_day(pv_gen_mvar_filename, wind_gen_mvar_filename, demand_filename, max_day=max_day_mvar, metric="MVAR").savefig(mvar_maxday_figname, dpi=500, bbox_inches='tight')
 
 
 
 
-balance_figname = os.path.join(figs_folder, "residual_load_vs_hours.png")
-plot_energy_balance(prd_flows_filename, "PRD", ard_flows_filename, "ARD", 
-                    mvar_flows_filename, "MVAR", tvar_flows_filename, "TVAR",
-                    gen_flows_filename, "GEN").savefig(balance_figname, dpi=500, bbox_inches='tight')
+# balance_figname = os.path.join(figs_folder, "residual_load_vs_hours.png")
+# plot_energy_balance(prd_flows_filename, "PRD", ard_flows_filename, "ARD", 
+#                     mvar_flows_filename, "MVAR", tvar_flows_filename, "TVAR",
+#                     gen_flows_filename, "GEN").savefig(balance_figname, dpi=500, bbox_inches='tight')
 
 
-one_metric_balance_figname = os.path.join(figs_folder, "one_metric_balance.png")
-plot_energy_balance_one_metric(ard_flows_filename, "ARD").savefig(one_metric_balance_figname, dpi=500, bbox_inches='tight')
+# one_metric_balance_figname = os.path.join(figs_folder, "one_metric_balance.png")
+# plot_energy_balance_one_metric(ard_flows_filename, "ARD").savefig(one_metric_balance_figname, dpi=500, bbox_inches='tight')
+
+# reliability_figname = os.path.join(plots_folder, "reliability_all_metrics.png")
+# plot_reliability_all_metrics(prd_flows_filename, "PRD", ard_flows_filename, "ARD", mvar_flows_filename,
+#                              "MVAR", tvar_flows_filename, "TVAR", gen_flows_filename, "GEN").savefig(reliability_figname, dpi=500, bbox_inches='tight')
+
+ard_1_filename = os.path.join(results_folder, "alpha1-RE_flows_ARD_sites.csv")
+mvar_1_filename = os.path.join(results_folder, "alpha1-RE_flows_MVAR_sites.csv")
+ard_15_filename = os.path.join(results_folder, "alpha1.5-RE_flows_ARD_sites.csv")
+mvar_15_filename = os.path.join(results_folder, "alpha1.5-RE_flows_MVAR_sites.csv")
+ard_3_filename = os.path.join(results_folder, "alpha3-RE_flows_ARD_sites.csv")
+mvar_3_filename = os.path.join(results_folder, "alpha3-RE_flows_MVAR_sites.csv")
 
 
-
+reliability_alphas_figname = os.path.join(plots_folder, "reliability_alphas.png")
+plot_reliability_alphas(ard_1_filename, mvar_1_filename, ard_15_filename, mvar_15_filename,
+                        ard_3_filename, mvar_3_filename).savefig(reliability_alphas_figname, dpi=500, bbox_inches='tight')
 
 
